@@ -18,7 +18,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # Defines the workflow job called "build"
-  build-template:
+  build-deploy-template:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
@@ -72,3 +72,9 @@ jobs:
           	--template_location gs://${{ vars.BUCKET_NAME }}/templates/$TEMPLATE_NAME \
           	--region ${{ vars.REGION }} \
           	--save_main_session
+
+      - name: deploy template
+        run: |
+          gcloud dataflow jobs run flow_transform_voos_atrasados \
+            --gcs-location gs://${{ vars.BUCKET_NAME }}/templates/$TEMPLATE_NAME \
+            --parameters table_name=voos_atrasados_2 \
