@@ -57,13 +57,13 @@ jobs:
       - name: build template in bucket
         run: |
           poetry run python $TEMPLATE_MODULE \
-            --project_id "${{ env.PROJECT }}" \
+            --project_id "${{ env.GCP_PROJECT }}" \
           	--table_name $TABLE_NAME \
           	--dataset_name $DATASET_NAME \
           	--bucket_name $BUCKET_NAME \
           	--data_source $DATA_SOURCE \
           	--runner $RUNNER \
-          	--project "${{ env.PROJECT }}" \
+          	--project "${{ env.GCP_PROJECT }}" \
           	--staging_location "gs://${BUCKET_NAME}/staging" \
           	--template_location "gs://${BUCKET_NAME}/templates/${TEMPLATE_NAME}" \
           	--region $REGION \
