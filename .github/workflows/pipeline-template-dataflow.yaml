@@ -41,6 +41,7 @@ jobs:
           pip install pipx
           pipx install poetry
           poetry install
+          poetry shell
 
       # Performs authentication on Google Cloud with a json credential allocated in secret github
       - id: 'auth'
