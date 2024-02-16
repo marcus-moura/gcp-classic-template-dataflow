@@ -1,0 +1,70 @@
+name: Template dataflow CI/CD
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "develop" branch
+  push:
+    branches: ["main"]
+     
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Configure env variables
+env:
+  RUNNER: DataflowRunner
+  TEMPLATE_MODULE: "classic_templates/template_voos/pipe_voos_to_bigquery.py"
+  TEMPLATE_NAME: "batch_job_df_gcs_big_query_template"
+  TABLE_NAME: "voos_atrasados"
+  DATASET_NAME: "raw_curso_dataflow_voos"
+  DATA_SOURCE: "voos_sample.csv"
+  
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Defines the workflow job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps will be executed as part of the job
+    steps:
+      # Clone the repository
+      - uses: actions/checkout@v4
+
+      #Runs a single command using the runners shell        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      # Runs a set of commands using the runners shell
+      - name: Install dependencies
+        run: |
+          pip install pipx
+          pipx install poetry
+          poetry install
+
+      # Performs authentication on Google Cloud with a json credential allocated in secret github
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+
+      # Configura o Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      # Runs command gsutil for syns dags
+      - name: build template in bucket
+        run: |
+          poetry run python $TEMPLATE_MODULE \
+            --project_id $PROJECT_ID \
+          	--table_name $TABLE_NAME \
+          	--dataset_name $DATASET_NAME \
+          	--bucket_name $BUCKET_NAME \
+          	--data_source $DATA_SOURCE \
+          	--runner $RUNNER \
+          	--project $PROJECT_ID \
+          	--staging_location "gs://${BUCKET_NAME}/staging" \
+          	--template_location "gs://${BUCKET_NAME}/templates/${TEMPLATE_NAME}" \
+          	--region $REGION \
+          	--save_main_session
