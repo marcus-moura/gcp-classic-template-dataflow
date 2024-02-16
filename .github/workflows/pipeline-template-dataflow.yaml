@@ -11,19 +11,20 @@ on:
 # Configure env variables
 env:
   RUNNER: DataflowRunner
-  TEMPLATE_MODULE: "classic_templates/template_voos/pipe_voos_to_bigquery.py"
-  TEMPLATE_NAME: "batch_job_df_gcs_big_query_template"
-  TABLE_NAME: "voos_atrasados"
-  DATASET_NAME: "raw_curso_dataflow_voos"
-  DATA_SOURCE: "voos_sample.csv"
-  
+     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # Defines the workflow job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    env:
+      TEMPLATE_MODULE: "classic_templates/template_voos/pipe_voos_to_bigquery.py"
+      TEMPLATE_NAME: "batch_job_df_gcs_big_query_template"
+      TABLE_NAME: "voos_atrasados"
+      DATASET_NAME: "raw_curso_dataflow_voos"
+      DATA_SOURCE: "voos_sample.csv"
+  
     # Steps will be executed as part of the job
     steps:
       # Clone the repository
@@ -60,7 +61,7 @@ jobs:
             --project_id ${{ vars.PROJECT }} \
           	--table_name $TABLE_NAME \
           	--dataset_name $DATASET_NAME \
-          	--bucket_name $BUCKET_NAME \
+          	--bucket_name ${{ vars.BUCKET_NAME }} \
           	--data_source $DATA_SOURCE \
           	--runner $RUNNER \
           	--project ${{ vars.PROJECT }} \
