@@ -41,7 +41,7 @@ def run_pipeline():
       parser.add_value_provider_argument('--bucket_name', required=True, help="Bucket para o armazenamento dos arquivos")
 
   pipeline_options = PipelineOptions()
-  p1 = beam.Pipeline(options=pipeline_options)
+  p = beam.Pipeline(options=pipeline_options)
   
   args = pipeline_options.view_as(MyOptions)
 
@@ -50,7 +50,7 @@ def run_pipeline():
   path_data_source = f"gs://{args.bucket_name}/input/{args.data_source}"
   
   Tempo_Atrasos = (
-    p1  
+    p  
       | "Importar Dados Atraso" >> beam.io.ReadFromText(path_data_source, skip_header_lines=1)
       | "Separar por Vírgulas Atraso" >> beam.Map(lambda record: record.split(','))
       | "Pegar voos com atraso" >> beam.ParDo(Filtro())
@@ -59,7 +59,7 @@ def run_pipeline():
   )
 
   Qtd_Atrasos = (
-    p1
+    p
       | "Importar Dados" >> beam.io.ReadFromText(path_data_source, skip_header_lines=1)
       | "Separar por Vírgulas Qtd" >> beam.Map(lambda record: record.split(','))
       | "Pegar voos com Qtd" >> beam.ParDo(Filtro())
@@ -82,7 +82,7 @@ def run_pipeline():
       )
   )
   
-  p1.run()
+  p.run()
   
 if __name__ == '__main__':
     run_pipeline()
