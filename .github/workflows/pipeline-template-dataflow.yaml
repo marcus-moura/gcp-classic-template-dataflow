@@ -41,7 +41,6 @@ jobs:
           pip install pipx
           pipx install poetry
           poetry install
-          poetry shell
 
       # Performs authentication on Google Cloud with a json credential allocated in secret github
       - id: 'auth'
@@ -57,6 +56,7 @@ jobs:
       # Runs command gsutil for syns dags
       - name: build template in bucket
         run: |
+          poetry shell
           python $TEMPLATE_MODULE \
             --project_id $PROJECT_ID \
           	--table_name $TABLE_NAME \
