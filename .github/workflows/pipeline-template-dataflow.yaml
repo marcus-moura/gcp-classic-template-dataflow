@@ -29,18 +29,17 @@ jobs:
       # Clone the repository
       - uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell        
-      # - name: Set up Python
-      #   uses: actions/setup-python@v5
-      #   with:
-      #     python-version: '3.11'
+      #Runs a single command using the runners shell        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
           
       # Runs a set of commands using the runners shell
       - name: Install dependencies
         run: |
           pip install pipx
           pipx install poetry
-          poetry env use 3.11.1
           poetry install
 
       # Performs authentication on Google Cloud with a json credential allocated in secret github
