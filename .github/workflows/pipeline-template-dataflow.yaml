@@ -57,14 +57,14 @@ jobs:
       - name: build template in bucket
         run: |
           poetry run python $TEMPLATE_MODULE \
-            --project_id "${{ vars.PROJECT }}" \
+            --project_id ${{ vars.PROJECT }} \
           	--table_name $TABLE_NAME \
           	--dataset_name $DATASET_NAME \
           	--bucket_name $BUCKET_NAME \
           	--data_source $DATA_SOURCE \
           	--runner $RUNNER \
-          	--project "${{ vars.PROJECT }}" \
-          	--staging_location "gs://${BUCKET_NAME}/staging" \
-          	--template_location "gs://${BUCKET_NAME}/templates/${TEMPLATE_NAME}" \
-          	--region $REGION \
+          	--project ${{ vars.PROJECT }} \
+          	--staging_location gs://${{ vars.BUCKET_NAME }}/staging \
+          	--template_location gs://${{ vars.BUCKET_NAME }}/templates/$TEMPLATE_NAME \
+          	--region ${{ vars.REGION }} \
           	--save_main_session
