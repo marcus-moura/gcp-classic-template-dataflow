@@ -27,6 +27,7 @@ jobs:
       TABLE_NAME: "voos_atrasados"
       DATASET_NAME: "raw_curso_dataflow_voos"
       DATA_SOURCE: "voos_sample.csv"
+      JOB_NAME: "flow_transform_voos_atrasados"
   
     # Steps will be executed as part of the job
     steps:
@@ -75,6 +76,29 @@ jobs:
 
       - name: deploy template
         run: |
-          gcloud dataflow jobs run flow_transform_voos_atrasados \
+          gcloud dataflow jobs run $JOB_NAME \
             --gcs-location gs://${{ vars.BUCKET_NAME }}/templates/$TEMPLATE_NAME \
             --parameters table_name=voos_atrasados_2 \
+            --region ${{ vars.REGION }}
+
+      - name: wait start job
+        run: sleep 60
+
+      - name: Check job status
+        id: check_job_status
+        run: |
+          status=$(gcloud dataflow jobs list --filter="name=$JOB_NAME" --format="value(state)")
+          echo "::set-output name=status::$status"
+        continue-on-error: true
+
+      - name: Verificar status do job até que seja concluído
+        run: |
+          while [[ "${{ steps.check_job_status.outputs.status }}" != "JOB_STATE_DONE" ]]; do
+            sleep 60
+            status=$(gcloud dataflow jobs list --filter="name=$JOB_NAME" --format="value(state)")
+            echo "Status do job: $status"
+          done
+
+      - name: Imprimir logs do job concluído
+        run: |
+          gcloud dataflow jobs logs $JOB_NAME --region ${{ vars.REGION }}
