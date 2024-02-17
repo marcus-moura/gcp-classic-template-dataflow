@@ -78,5 +78,5 @@ jobs:
         run: |
           gcloud dataflow jobs run $JOB_NAME \
             --gcs-location gs://${{ vars.BUCKET_NAME }}/templates/$TEMPLATE_NAME \
-            --parameters table_name=voos_atrasados_2 \
+            --parameters table_name=$TABLE_NAME \
             --region ${{ vars.REGION }}
