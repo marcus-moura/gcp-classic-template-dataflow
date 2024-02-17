@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Preparação do template
-python $TEMPLATE_MODULE \
+python $TEMPLATE_SOURCE_PATH \
     --project_id $PROJECT_ID \
 	--table_name $TABLE_NAME \
 	--dataset_name $DATASET_NAME \
