@@ -1,2 +1,4 @@
-scripts/env_global_variables.sh
+env_global_variables.sh
+set_env_variables.sh
 curso-apache-beam-412101-612a6f710cfe.json
+__pycache__
