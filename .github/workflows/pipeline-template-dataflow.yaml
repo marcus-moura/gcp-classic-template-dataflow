@@ -17,13 +17,13 @@ jobs:
   build-deploy-template:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # env:
-    #   TEMPLATE_SOURCE_PATH: "classic_templates/template_voos/pipe_voos_to_bigquery.py"
-    #   TEMPLATE_NAME: "pipe_voos_to_bigquery"
-    #   TABLE_NAME: "voos_atrasados"
-    #   DATASET_NAME: "raw_curso_dataflow_voos"
-    #   DATA_SOURCE: "voos_sample.csv"
-    #   JOB_NAME: "flow_transform_voos_atrasados"
+    env:
+      TEMPLATE_SOURCE_PATH: "classic_templates/template_voos/pipe_voos_to_bigquery.py"
+      TEMPLATE_NAME: "pipe_voos_to_bigquery"
+      TABLE_NAME: "voos_atrasados"
+      DATASET_NAME: "raw_curso_dataflow_voos"
+      DATA_SOURCE: "voos_sample.csv"
+      JOB_NAME: "flow_transform_voos_atrasados"
   
     # Steps will be executed as part of the job
     steps:
@@ -52,10 +52,7 @@ jobs:
       # Configura o Cloud SDK
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
-      
-      - name: env variables
-        run: |
-          export $(cat classic_template/.env | xargs)
+
       # Runs command gsutil for syns dags
       - name: build template in bucket
         run: |
