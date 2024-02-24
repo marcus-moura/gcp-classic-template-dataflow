@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
 
 # Configure env variables
-env:
-  RUNNER: DataflowRunner
+# env:
+#   RUNNER: DataflowRunner
      
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,13 +21,13 @@ jobs:
   build-deploy-template:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    env:
-      TEMPLATE_SOURCE_PATH: "classic_templates/template_voos/pipe_voos_to_bigquery.py"
-      TEMPLATE_NAME: "pipe_voos_to_bigquery"
-      TABLE_NAME: "voos_atrasados"
-      DATASET_NAME: "raw_curso_dataflow_voos"
-      DATA_SOURCE: "voos_sample.csv"
-      JOB_NAME: "flow_transform_voos_atrasados"
+    # env:
+    #   TEMPLATE_SOURCE_PATH: "classic_templates/template_voos/pipe_voos_to_bigquery.py"
+    #   TEMPLATE_NAME: "pipe_voos_to_bigquery"
+    #   TABLE_NAME: "voos_atrasados"
+    #   DATASET_NAME: "raw_curso_dataflow_voos"
+    #   DATA_SOURCE: "voos_sample.csv"
+    #   JOB_NAME: "flow_transform_voos_atrasados"
   
     # Steps will be executed as part of the job
     steps:
@@ -61,6 +61,7 @@ jobs:
       # Runs command gsutil for syns dags
       - name: build template in bucket
         run: |
+          export $(cat classic_template/.env | xargs)
           poetry run python $TEMPLATE_SOURCE_PATH \
             --project_id ${{ vars.PROJECT }} \
           	--table_name $TABLE_NAME \
