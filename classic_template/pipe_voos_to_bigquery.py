@@ -31,8 +31,8 @@ def criar_dict_nivel0(record):
   
 def run_pipeline():
     
-    serviceAccount = os.getenv("SERVICE_ACCOUNT_JSON_PATH")
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = serviceAccount
+    # serviceAccount = os.getenv("SERVICE_ACCOUNT_JSON_PATH")
+    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = serviceAccount
 
     class MyOptions(PipelineOptions):
         @classmethod
