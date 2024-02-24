@@ -1,0 +1,40 @@
+site_name: GCP Classic Template
+
+nav:
+  - Home: index.md
+
+theme:
+  name: material
+  palette:
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: deep blue
+    accent: blue
+    toggle:
+      icon: material/lightbulb-outline
+      name: "Switch to dark mode"
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: deep yellow
+    accent: blue
+    toggle:
+      icon: material/lightbulb
+      name: "Switch to light mode"
+  language: pt
+
+repo_name: "marcus-moura/gcp-classic-template-dataflow"
+repo_url: "https://github.com/marcus-moura/gcp-classic-template-dataflow"
+
+markdown_extensions:
+- tables
+- admonition
+- pymdownx.details
+- pymdownx.superfences
+- pymdownx.highlight:
+    pygments_lang_class: true
+- pymdownx.extra
+- pymdownx.emoji:
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
+- pymdownx.tabbed:
+    alternate_style: true
