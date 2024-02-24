@@ -59,7 +59,7 @@ jobs:
       # Runs command gsutil for syns dags
       - name: build template in bucket
         run: |
-          poetry run python $TEMPLATE_SOURCE_PATH \
+          poetry run python -m classic_template.pipe_voos_to_bigquery \
             --project_id ${{ vars.PROJECT }} \
           	--table_name $TABLE_NAME \
           	--dataset_name $DATASET_NAME \
