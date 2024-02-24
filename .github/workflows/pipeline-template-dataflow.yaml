@@ -43,8 +43,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Install dependencies
         run: |
-          pip install pipx
-          pipx install poetry
+          pip install poetry
           poetry install
 
       # Performs authentication on Google Cloud with a json credential allocated in secret github
